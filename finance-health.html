@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monthly Expense Calculator</title>
+  <style>
+    body
+    {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background Video */
+    .background-video
+    {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Overlay to make text more readable */
+    .overlay
+    {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+      z-index: 0;
+    }
+
+    .calculator-container
+    {
+      background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      z-index: 1; /* Keep above the video */
+      width: 300px;
+    }
+
+    .calculator-container input
+    {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .calculator-container button
+    {
+      width: 48%;
+      padding: 10px;
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+      border-radius: 5px;
+    }
+
+    .calculator-container button:hover
+    {
+      background-color: #0056b3;
+    }
+
+    .results
+    {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .results p
+    {
+      font-size: 18px;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video class="background-video" autoplay loop muted>
+    <source src="https://cdn.pixabay.com/video/2024/04/15/208082.mp4?download" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Overlay to make text readable -->
+  <div class="overlay"></div>
+
+  <div class="calculator-container">
+    <h2>Enter Your Monthly Income</h2>
+    <input type="number" id="incomeInput" placeholder="Enter your monthly income" required>
+    <div>
+      <button onclick="calculateExpenses(1)">You have an ongoing loan (EMI)</button>
+      <button onclick="calculateExpenses(2)">You don't have an ongoing loan (EMI)</button>
+    </div>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    function calculateExpenses(caseNumber)
+    {
+      const m = parseFloat(document.getElementById('incomeInput').value);
+      if (isNaN(m) || m <= 0)
+      {
+        alert("Please enter a valid income!");
+        return;
+      }
+
+      let results = "";
+
+      // Common calculations for both cases
+      const s = (m / 5).toFixed(2); // shaving
+      const r = (m / 10).toFixed(2); // rent
+      const e = (m / 5).toFixed(2); // education
+      const g = (m / 20).toFixed(2); // grocery
+      const p = (m / 20).toFixed(2); // personal
+      const a = (m / 6.99678).toFixed(2); // emergency
+      const l = (m / 10).toFixed(2); // liquid money
+
+      if (caseNumber === 1)
+      {
+        const b = (m / 6.366294).toFixed(2); // loan (EMI)
+        results += `<p><strong>Case 1 Calculations:</strong></p>`;
+        results += `<p>Approx Shaving per month: ₹${s}</p>`;
+        results += `<p>expenses on Rent per month: ₹${r}</p>`;
+        results += `<p>Education expense per month: ₹${e}</p>`;
+        results += `<p>Grocery bill per month: ₹${g}</p>`;
+        results += `<p>Personal expense per month: ₹${p}</p>`;
+        results += `<p>Emergency savings fund per month: ₹${a}</p>`;
+        results += `<p>Liquid money you mush have about: ₹${l}</p>`;
+        results += `<p>Monthly EMI (loan) should be: ₹${b}</p>`;
+      }
+      else if (caseNumber === 2)
+      {
+        results += `<p><strong>Case 2 Calculations:</strong></p>`;
+        results += `<p>Approx Shaving per month: ₹${s}</p>`;
+        results += `<p>Expenses Rent per month: ₹${r}</p>`;
+        results += `<p>Education expense per month: ₹${e}</p>`;
+        results += `<p>Grocery bill per month: ₹${g}</p>`;
+        results += `<p>Personal expense per month: ₹${p}</p>`;
+        results += `<p>Emergency savings per month: ₹${a}</p>`;
+        results += `<p>Liquid money you must have about: ₹${l}</p>`;
+      }
+
+      document.getElementById('results').innerHTML = results;
+    }
+  </script>
+
+</body>
+</html>
